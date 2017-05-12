@@ -1,0 +1,139 @@
+<div class="container">
+    <div class="page-header">
+        <h3>StMU Engineering Inventory</h3>
+        <div class="nav">
+            <div class="container">
+                <ul class="pull-right">
+                    <li><a href="login">Login</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addComponent">
+            <span class="glyphicon glyphicon-plus padding-right" aria-hidden="true"></span> Add a Component
+        </button>
+    <br><br>
+    <table id="datasheet" class="table table-bordered table-responsive table-hover">
+    <!--<table id="datasheet" class="table display">-->
+        <thead>
+            <tr>
+                <th>Edit</th>
+                <th>Delete</th>
+                <th>Category</th>
+                <th>Component Description</th>
+                <th>Bin Number</th>
+                <th>Quantity</th>
+                <th>Last Modified</th>
+                <th>Id</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let inventoryData of inventory">
+                <td><button type="button" (click)="editComponent(inventoryData)" class="btn btn-primary btn-sm">
+                        <span class="glyphicon glyphicon-pencil padding-right" aria-hidden="true"></span>
+                        </button></td>
+                <td><button type="button" (click)="deleteComponent(inventoryData)" class="btn btn-primary btn-sm">
+                        <span class="glyphicon glyphicon-trash padding-right" aria-hidden="true"></span>
+                        </button></td>
+                <td>{{inventoryData.category}}</td>
+                <td>{{inventoryData.desc}}</td>
+                <td>{{inventoryData.bin}}</td>
+                <td>{{inventoryData.quantity}}</td>
+                <td>{{inventoryData.last_change}}</td>
+                <td>{{inventoryData.id}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!--Add Component Modal-->
+<addComponent-cmp></addComponent-cmp>
+
+<!--Delete Component Modal-->
+<div class="modal fade" id="deleteComponent" tabindex="-1" role="dialog" aria-labelledby="deleteTitle">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="deleteTitle">Delete Item from Inventory</h4>
+            </div>
+            <div class="modal-body">
+                <h4>Are you sure want to delete this entry?</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" (click)="deleteComponentConfirm(inventoryData)" class="btn btn-primary">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Edit Component Modal-->
+<div class="modal fade" id="editComponent" tabindex="-1" role="dialog" aria-labelledby="editLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="editLabel">Edit Inventory Component</h4>
+            </div>
+            <div class="modal-body">
+
+                <form class="form-horizontal" #editInventory="ngForm" (ngSubmit)="saveChanges(editInventory.value)">
+
+                    <div class="form-group">
+                        <label for="category" class="col-sm-2 control-label">Category</label>
+                        <div class="col-sm-10">
+                            <select type="category" name="category" [(ngModel)]="inventoryData.category" class="form-control" id="category" placeholder="Category">
+								<option value="Digital Chip Cabinet 201">Digital Chip Cabinet 201</option>
+								<option value="Resistor Cabinet 202">Resistor Cabinet 202</option>
+								<option value="Capacitor Cabinet 203">Capacitor Cabinet 203</option>
+						    </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="desc" class="col-sm-2 control-label">Description</label>
+                        <div class="col-sm-10">
+                            <input type="desc" class="form-control" id="desc" [(ngModel)]="inventoryData.desc" name="desc">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bin" class="col-sm-2 control-label">Bin #</label>
+                        <div class="col-sm-10">
+                            <input type="bin" class="form-control" id="bin" [(ngModel)]="inventoryData.bin" name="bin">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="quantity" class="col-sm-2 control-label">Quantity</label>
+                        <div class="col-sm-10">
+                            <input type="quantity" class="form-control" id="quantity" [(ngModel)]="inventoryData.quantity" name="quantity">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id" class="col-sm-2 control-label">Id</label>
+                        <div class="col-sm-10">
+                            <input type="id" class="form-control" id="id" [(ngModel)]="inventoryData.id" name="Id">
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--<script type="text/javascript">
+$(document).ready(function() {
+    $('#datasheet').DataTable( {
+        "order": [[ 0, "desc" ]]
+    } );
+} );
+</script>
+-->
